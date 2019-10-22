@@ -1,0 +1,33 @@
+{
+    "variables": {
+        "disk_size": "20000"
+    },
+
+    "builders":
+    [
+        {
+            "name": "rhel-8-server-x86_64",
+
+            "type": "qemu",
+            "format": "qcow2",
+            "accelerator": "kvm",
+            "disk_size": "{{ user `disk_size`}}",
+
+            "iso_url": "rhel-8.0-x86_64-dvd.iso",
+            "iso_checksum": "005d4f88fff6d63b0fc01a10822380ef52570edd8834321de7be63002cc6cc43",
+            "iso_checksum_type": "sha256",
+
+            "http_directory": "http",
+
+            "ssh_username": "ansible",
+            "ssh_password": "automateit",
+            "ssh_wait_timeout": "10m",
+
+            "boot_wait": "2s",
+            "boot_command": [
+               "<up><tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ],
+            "shutdown_command": "sudo shutdown -P now"
+        }
+    ]
+}
